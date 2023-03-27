@@ -7,8 +7,10 @@
 
 import UIKit
 
-class LoginView: UIView {
-
+class LoginView: UIView, LoginVMDelegate {
+  private let viewModel = LoginVM()
+  
+  
   private let loginLabel = IVTitleLabel(textAlignment: .center, fontSize: 36, text: "Log in")
   private let emailField = IVTextField(placeholderText: "Enter email")
   private let passwordField = IVTextField(placeholderText: "Enter password", isSecured: false)
@@ -18,6 +20,7 @@ class LoginView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    viewModel.delegate = self
     translatesAutoresizingMaskIntoConstraints = false
     addSubviews(loginLabel, emailField, passwordField, loginButton, registerButton)
     backgroundColor = .systemBlue
@@ -28,6 +31,11 @@ class LoginView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  func configureUI() {
+    setUpConstraints()
+    loginButton.addTarget(self, action: #selector(loginButtonTaped), for: .touchUpInside)
+    registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+  }
   private func setUpConstraints() {
     NSLayoutConstraint.activate([
       loginLabel.topAnchor.constraint(equalTo: topAnchor, constant: 120),
@@ -49,5 +57,15 @@ class LoginView: UIView {
       registerButton.rightAnchor.constraint(equalTo: passwordField.rightAnchor),
       registerButton.widthAnchor.constraint(equalTo: emailField.widthAnchor, multiplier: 0.4)
     ])
+  }
+  
+  
+  
+  @objc func loginButtonTaped() {
+    viewModel.tryLoginUser()
+  }
+  
+  @objc func registerButtonTapped() {
+    viewModel.transitToRegisterScreen()
   }
 }
