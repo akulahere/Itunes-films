@@ -7,13 +7,18 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, LoginViewDelegate {
   private let loginView = LoginView()
+  private let viewModel = LoginViewModel()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(loginView)
+
     setUpConstraints()
+    
+    loginView.delegate = self
+    viewModel.delegate = self
   }
   
   private func setUpConstraints() {
@@ -23,6 +28,15 @@ class LoginViewController: UIViewController {
       loginView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       loginView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
+  }
+  
+  func loginButtonTapped() {
+    viewModel.tryLoginUser()
+  }
+  
+  func registerButtonTapped() {
+        let registrationVC = RegistrationViewController()
+        navigationController?.pushViewController(registrationVC, animated: true)
   }
 }
 
