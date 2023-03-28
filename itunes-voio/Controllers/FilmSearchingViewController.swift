@@ -70,14 +70,16 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     searchBar.resignFirstResponder()
     guard let searchTerm = searchBar.text, !searchTerm.isEmpty else { return }
+    print("Search exexuted")
     viewModel.searchFilms(searchTerm: searchTerm) { [weak self] error in
       DispatchQueue.main.async {
         if let error = error {
-          print("Error searching films: \(error.localizedDescription)")
+          self?.showErrorAlert(message: error.localizedDescription)
         } else {
-          self?.tableView.reloadData()
+          print(self?.viewModel.searchResults.count)
         }
       }
     }
+    print("AFTER SEARCH: \(self.viewModel.searchResults.count)")
   }
 }
