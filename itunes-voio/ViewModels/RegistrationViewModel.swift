@@ -9,8 +9,15 @@ import UIKit
 
 final class RegistrationViewModel {
   public weak var delegate: RegistrationViewDelegate?
+  var email = ""
+  var password = ""
   
-  func tryToRegister() {
-    
+  func tryToRegister(completion: @escaping (Result<String, Error>) -> Void) {
+    AuthService.shared.signUp(email: email, pass: password, completion: completion)
+  }
+
+  // TODO: Add base field vaildation in VM
+  func validateRegistrationForm() {
+
   }
 }

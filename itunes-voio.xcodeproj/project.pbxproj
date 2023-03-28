@@ -22,6 +22,8 @@
 		6639C3D629D1CAC0007F9456 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3D529D1CAC0007F9456 /* RegistrationViewController.swift */; };
 		6639C3D829D1CAD4007F9456 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3D729D1CAD4007F9456 /* RegistrationViewModel.swift */; };
 		6679B37429D22D6100041C87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6679B37329D22D6100041C87 /* GoogleService-Info.plist */; };
+		6679B37729D237B800041C87 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679B37629D237B800041C87 /* AuthService.swift */; };
+		6679B37929D23B0800041C87 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679B37829D23B0800041C87 /* User.swift */; };
 		72712E5BA853475BA324278D /* Pods_itunes_voio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22AF5FDE99E0773093E8CE51 /* Pods_itunes_voio.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +47,8 @@
 		6639C3D529D1CAC0007F9456 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		6639C3D729D1CAD4007F9456 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		6679B37329D22D6100041C87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6679B37629D237B800041C87 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		6679B37829D23B0800041C87 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		85FD46136457F8AF005890BF /* Pods-itunes-voio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-itunes-voio.release.xcconfig"; path = "Target Support Files/Pods-itunes-voio/Pods-itunes-voio.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,7 +70,6 @@
 				21E79166E2A81F9578772C1C /* Pods-itunes-voio.debug.xcconfig */,
 				85FD46136457F8AF005890BF /* Pods-itunes-voio.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -91,6 +94,7 @@
 		6639C3AA29D1A6C4007F9456 /* itunes-voio */ = {
 			isa = PBXGroup;
 			children = (
+				6679B37529D2379A00041C87 /* Services  */,
 				6639C3C629D1B840007F9456 /* Custom Views */,
 				6639C3C329D1B0EB007F9456 /* Resources */,
 				6639C3C229D1B0D5007F9456 /* Controllers */,
@@ -106,6 +110,7 @@
 		6639C3BF29D1B0B5007F9456 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6679B37829D23B0800041C87 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -157,6 +162,14 @@
 				6639C3CC29D1BB80007F9456 /* IVButton.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		6679B37529D2379A00041C87 /* Services  */ = {
+			isa = PBXGroup;
+			children = (
+				6679B37629D237B800041C87 /* AuthService.swift */,
+			);
+			path = "Services ";
 			sourceTree = "<group>";
 		};
 		9849857538BF45219369E78D /* Frameworks */ = {
@@ -288,6 +301,8 @@
 				6639C3C929D1B87F007F9456 /* IVTextField.swift in Sources */,
 				6639C3D629D1CAC0007F9456 /* RegistrationViewController.swift in Sources */,
 				6639C3D029D1BD58007F9456 /* Extensions.swift in Sources */,
+				6679B37929D23B0800041C87 /* User.swift in Sources */,
+				6679B37729D237B800041C87 /* AuthService.swift in Sources */,
 				6639C3AC29D1A6C4007F9456 /* AppDelegate.swift in Sources */,
 				6639C3D229D1BE27007F9456 /* LoginViewModel.swift in Sources */,
 				6639C3C529D1B193007F9456 /* LoginView.swift in Sources */,

@@ -12,11 +12,14 @@ protocol RegistrationViewDelegate: AnyObject {
     func registerButtonTapped()
 }
 
+// TODO: Fix capitalazing in the fields
+
+// TODO: Make password  field protected
 class RegistrationView: UIView {
   weak var delegate: RegistrationViewDelegate?
 
   private let registrationLabel = IVTitleLabel(textAlignment: .center, fontSize: 36, text: "Registration")
-  private let userPicView: UIView = {
+  let userPicView: UIView = {
     let imageView = UIImageView()
     imageView.image = UIImage(systemName: "person.circle")
     imageView.tintColor = .gray
@@ -30,11 +33,11 @@ class RegistrationView: UIView {
     return imageView
   }()
   
-  private let nameField = IVTextField(placeholderText: "Enter name")
-  private let emailField = IVTextField(placeholderText: "Enter email")
-  private let passwordField = IVTextField(placeholderText: "Enter password", isSecured: false)
-  private let backToLoginButton = IVButton(backgroundColor: .systemGreen, title: "Back to Login")
-  private let registerButton = IVButton(backgroundColor: .systemGreen, title: "Register")
+  let nameField = IVTextField(placeholderText: "Enter name")
+  let emailField = IVTextField(placeholderText: "Enter email")
+  let passwordField = IVTextField(placeholderText: "Enter password", isSecured: false)
+  let backToLoginButton = IVButton(backgroundColor: .systemGreen, title: "Back to Login")
+  let registerButton = IVButton(backgroundColor: .systemGreen, title: "Register")
   
   override init(frame: CGRect) {
     super.init(frame: frame)
