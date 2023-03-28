@@ -19,6 +19,11 @@ class LoginViewController: UIViewController, LoginViewDelegate {
     
     loginView.delegate = self
     viewModel.delegate = self
+    
+    loginView.emailField.delegate = self
+    loginView.passwordField.delegate = self
+    loginView.emailField.becomeFirstResponder()
+
   }
   
   private func setUpConstraints() {
@@ -29,9 +34,21 @@ class LoginViewController: UIViewController, LoginViewDelegate {
       loginView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
     ])
   }
-  
+  // TODO: Add loader
   func loginButtonTapped() {
-    viewModel.tryLoginUser()
+    viewModel.email = loginView.emailField.text ?? ""
+    viewModel.password = loginView.passwordField.text ?? ""
+    viewModel.tryToLogin { [weak self] result in
+      DispatchQueue.main.async {
+        switch result {
+        case .success(let message):
+          print(message)
+          // TODO: Proceed to the next view
+        case .failure(let error):
+          self?.showErrorAlert(message: error.localizedDescription)
+        }
+      }
+    }
   }
   
   func registerButtonTapped() {
@@ -40,3 +57,13 @@ class LoginViewController: UIViewController, LoginViewDelegate {
   }
 }
 
+extension LoginViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == loginView.emailField {
+      loginView.passwordField.becomeFirstResponder()
+    } else if textField == loginView.passwordField {
+      registerButtonTapped()
+    }
+    return true
+  }
+}

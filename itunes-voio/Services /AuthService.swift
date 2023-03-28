@@ -22,7 +22,7 @@ final class AuthService {
       if let error = error {
         completion(.failure(error))
       } else {
-        completion(.success("User login successfully"))
+        completion(.success("User register successfully"))
       }
     }
   }

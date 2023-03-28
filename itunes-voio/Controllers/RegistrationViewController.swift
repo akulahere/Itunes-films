@@ -37,6 +37,7 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate {
     navigationController?.popViewController(animated: true)
   }
   
+  // TODO: Add loader
   func registerButtonTapped() {
     viewModel.email = registrationView.emailField.text ?? ""
     viewModel.password = registrationView.passwordField.text ?? ""
@@ -52,8 +53,6 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate {
       }
     }
   }
-  
-  
 }
 
 extension RegistrationViewController: UITextFieldDelegate {

@@ -10,14 +10,16 @@ protocol LoginViewDelegate: AnyObject {
     func loginButtonTapped()
     func registerButtonTapped()
 }
+// TODO: Fix capitalazing in the fields
 
+// TODO: Make password  field protected
 class LoginView: UIView {
   weak var delegate: LoginViewDelegate?
 
   
   private let loginLabel = IVTitleLabel(textAlignment: .center, fontSize: 36, text: "Log in")
-  private let emailField = IVTextField(placeholderText: "Enter email")
-  private let passwordField = IVTextField(placeholderText: "Enter password", isSecured: false)
+  let emailField = IVTextField(placeholderText: "Enter email")
+  let passwordField = IVTextField(placeholderText: "Enter password", isSecured: false)
   private let loginButton = IVButton(backgroundColor: .systemGreen, title: "Login")
   private let goToRegistrationButton = IVButton(backgroundColor: .systemGreen, title: "Register")
   

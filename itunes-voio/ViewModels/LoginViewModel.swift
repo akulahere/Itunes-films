@@ -10,7 +10,15 @@ import UIKit
 
 final class LoginViewModel {
   public weak var delegate: LoginViewDelegate?
-  func tryLoginUser() {
-    
+  var email = ""
+  var password = ""
+  
+  func tryToLogin(completion: @escaping (Result<String, Error>) -> Void) {
+    AuthService.shared.signIn(email: email, pass: password, completion: completion)
+  }
+  
+  // TODO: Add base field vaildation in VM
+  func validateLoginForm() {
+
   }
 }
