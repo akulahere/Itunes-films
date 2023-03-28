@@ -43,7 +43,8 @@ class LoginViewController: UIViewController, LoginViewDelegate {
         switch result {
         case .success(let message):
           print(message)
-          // TODO: Proceed to the next view
+          let tabBar = BaseTabBarController()
+          self?.navigationController?.setViewControllers([tabBar], animated: true)
         case .failure(let error):
           self?.showErrorAlert(message: error.localizedDescription)
         }

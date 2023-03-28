@@ -12,9 +12,6 @@ protocol RegistrationViewDelegate: AnyObject {
     func registerButtonTapped()
 }
 
-// TODO: Fix capitalazing in the fields
-
-// TODO: Make password  field protected
 class RegistrationView: UIView {
   weak var delegate: RegistrationViewDelegate?
 
@@ -35,7 +32,7 @@ class RegistrationView: UIView {
   
   let nameField = IVTextField(placeholderText: "Enter name")
   let emailField = IVTextField(placeholderText: "Enter email")
-  let passwordField = IVTextField(placeholderText: "Enter password", isSecured: false)
+  let passwordField = IVTextField(placeholderText: "Enter password", isSecured: true)
   let backToLoginButton = IVButton(backgroundColor: .systemGreen, title: "Back to Login")
   let registerButton = IVButton(backgroundColor: .systemGreen, title: "Register")
   
@@ -55,6 +52,8 @@ class RegistrationView: UIView {
     setUpConstraints()
     backToLoginButton.addTarget(self, action: #selector(backButtonTaped), for: .touchUpInside)
     registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+    emailField.autocapitalizationType = .none
+    passwordField.autocapitalizationType = .none
   }
   
   private func setUpConstraints() {

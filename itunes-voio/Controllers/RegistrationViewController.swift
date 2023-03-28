@@ -45,7 +45,8 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate {
       DispatchQueue.main.async {
         switch result {
         case .success(let message):
-          print(message)
+          let tabBar = BaseTabBarController()
+          self?.navigationController?.setViewControllers([tabBar], animated: true)
           // TODO: Proceed to the next view
         case .failure(let error):
           self?.showErrorAlert(message: error.localizedDescription)
