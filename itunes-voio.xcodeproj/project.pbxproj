@@ -11,6 +11,11 @@
 		6615740229D30FC50086748F /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740129D30FC50086748F /* FavoriteViewController.swift */; };
 		6615740429D30FD10086748F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740329D30FD10086748F /* ProfileViewController.swift */; };
 		6615740629D30FE90086748F /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740529D30FE80086748F /* BaseTabBarController.swift */; };
+		6615740829D318D10086748F /* FilmSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740729D318D10086748F /* FilmSearchViewModel.swift */; };
+		6615740A29D3195E0086748F /* FilmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740929D3195E0086748F /* FilmTableViewCell.swift */; };
+		6615740C29D319B30086748F /* FilmDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740B29D319B30086748F /* FilmDetailViewController.swift */; };
+		6615740E29D31A360086748F /* FilmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740D29D31A360086748F /* FilmInfo.swift */; };
+		6615741029D31A810086748F /* ItunesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740F29D31A810086748F /* ItunesResponse.swift */; };
 		6639C3AC29D1A6C4007F9456 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3AB29D1A6C4007F9456 /* AppDelegate.swift */; };
 		6639C3AE29D1A6C4007F9456 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3AD29D1A6C4007F9456 /* SceneDelegate.swift */; };
 		6639C3B029D1A6C4007F9456 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3AF29D1A6C4007F9456 /* LoginViewController.swift */; };
@@ -38,6 +43,11 @@
 		6615740129D30FC50086748F /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		6615740329D30FD10086748F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6615740529D30FE80086748F /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		6615740729D318D10086748F /* FilmSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmSearchViewModel.swift; sourceTree = "<group>"; };
+		6615740929D3195E0086748F /* FilmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmTableViewCell.swift; sourceTree = "<group>"; };
+		6615740B29D319B30086748F /* FilmDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDetailViewController.swift; sourceTree = "<group>"; };
+		6615740D29D31A360086748F /* FilmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmInfo.swift; sourceTree = "<group>"; };
+		6615740F29D31A810086748F /* ItunesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesResponse.swift; sourceTree = "<group>"; };
 		6639C3A829D1A6C4007F9456 /* itunes-voio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "itunes-voio.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6639C3AB29D1A6C4007F9456 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6639C3AD29D1A6C4007F9456 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				6679B37829D23B0800041C87 /* User.swift */,
+				6615740D29D31A360086748F /* FilmInfo.swift */,
+				6615740F29D31A810086748F /* ItunesResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -128,6 +140,7 @@
 			children = (
 				6639C3D129D1BE27007F9456 /* LoginViewModel.swift */,
 				6639C3D729D1CAD4007F9456 /* RegistrationViewModel.swift */,
+				6615740729D318D10086748F /* FilmSearchViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -137,6 +150,7 @@
 			children = (
 				6639C3C429D1B193007F9456 /* LoginView.swift */,
 				6639C3D329D1CAA6007F9456 /* RegistrationView.swift */,
+				6615740929D3195E0086748F /* FilmTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -149,6 +163,7 @@
 				661573FF29D30FB80086748F /* FilmSearchingViewController.swift */,
 				6615740129D30FC50086748F /* FavoriteViewController.swift */,
 				6615740329D30FD10086748F /* ProfileViewController.swift */,
+				6615740B29D319B30086748F /* FilmDetailViewController.swift */,
 				6615740529D30FE80086748F /* BaseTabBarController.swift */,
 			);
 			path = Controllers;
@@ -313,12 +328,17 @@
 				6639C3B029D1A6C4007F9456 /* LoginViewController.swift in Sources */,
 				6639C3C929D1B87F007F9456 /* IVTextField.swift in Sources */,
 				6639C3D629D1CAC0007F9456 /* RegistrationViewController.swift in Sources */,
+				6615740C29D319B30086748F /* FilmDetailViewController.swift in Sources */,
 				6639C3D029D1BD58007F9456 /* Extensions.swift in Sources */,
 				6615740229D30FC50086748F /* FavoriteViewController.swift in Sources */,
 				6615740429D30FD10086748F /* ProfileViewController.swift in Sources */,
+				6615740A29D3195E0086748F /* FilmTableViewCell.swift in Sources */,
 				6679B37929D23B0800041C87 /* User.swift in Sources */,
+				6615741029D31A810086748F /* ItunesResponse.swift in Sources */,
+				6615740829D318D10086748F /* FilmSearchViewModel.swift in Sources */,
 				6615740029D30FB80086748F /* FilmSearchingViewController.swift in Sources */,
 				6679B37729D237B800041C87 /* AuthService.swift in Sources */,
+				6615740E29D31A360086748F /* FilmInfo.swift in Sources */,
 				6639C3AC29D1A6C4007F9456 /* AppDelegate.swift in Sources */,
 				6639C3D229D1BE27007F9456 /* LoginViewModel.swift in Sources */,
 				6639C3C529D1B193007F9456 /* LoginView.swift in Sources */,
