@@ -16,6 +16,12 @@ class FilmDetailViewController: UIViewController {
     return filmImageView
   }()
   
+  private let scrollView: UIScrollView = {
+      let scrollView = UIScrollView()
+      scrollView.translatesAutoresizingMaskIntoConstraints = false
+      return scrollView
+  }()
+  
   private let titleLabel: UILabel = {
     let titleLabel = UILabel()
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +61,9 @@ class FilmDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    view.backgroundColor = .systemBackground
     setupSubviews()
+    setUpConstraints()
   }
   
   private func setupSubviews() {
@@ -63,14 +71,48 @@ class FilmDetailViewController: UIViewController {
     view.addSubview(titleLabel)
     view.addSubview(genreLabel)
     view.addSubview(releaseDateLabel)
-    view.addSubview(descriptionLabel)
+    view.addSubview(scrollView)
+    scrollView.addSubview(descriptionLabel)
     
-//    titleLabel.text = film.trackName
-//    genreLabel.text = film.primaryGenreName
+    titleLabel.text = viewModel.getFilmTitle()
+    genreLabel.text = viewModel.getFilmGenre()
+    releaseDateLabel.text = viewModel.getFilmReleaseDate()
+    descriptionLabel.text = viewModel.getFilmDescription()
+
+    viewModel.getFilmImage { [weak self] image in
+      DispatchQueue.main.async {
+        self?.filmImageView.image = image ?? UIImage(systemName: "film")
+      }
+    }
   }
   
-  // Implement the function to set up the layout
   private func setUpConstraints() {
-    // Add constraints here
+    NSLayoutConstraint.activate([
+      filmImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+      filmImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      filmImageView.widthAnchor.constraint(equalToConstant: 150),
+      filmImageView.heightAnchor.constraint(equalToConstant: 150),
+      
+      titleLabel.topAnchor.constraint(equalTo: filmImageView.bottomAnchor, constant: 8),
+      titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+      titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+      
+      genreLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+      genreLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+      
+      releaseDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+      releaseDateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+      
+      scrollView.topAnchor.constraint(equalTo: releaseDateLabel.bottomAnchor, constant: 8),
+      scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      
+      descriptionLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 8),
+      descriptionLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 8),
+      descriptionLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -8),
+      descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -8),
+      descriptionLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -16),
+    ])
   }
 }

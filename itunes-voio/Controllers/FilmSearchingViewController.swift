@@ -24,7 +24,7 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
     super.viewDidLoad()
     
     title = "Film Searching"
-    view.backgroundColor = .white
+    view.backgroundColor = .systemBackground
     
     setupSearchBar()
     setupTableView()
@@ -71,7 +71,7 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
     let film = viewModel.getFilmInfo(index: indexPath.row)
     let detailViewModel = FilmDetailViewModel(film: film)
     let detailViewController = FilmDetailViewController(viewModel: detailViewModel)
-    // TODO: Replace with pop up?
+    detailViewController.modalPresentationStyle = .fullScreen
     navigationController?.pushViewController(detailViewController, animated: true)
   }
   
