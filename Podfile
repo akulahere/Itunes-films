@@ -7,5 +7,7 @@ target 'itunes-voio' do
 
   # Pods for itunes-voio
 pod 'FirebaseAuth'
+pod 'FirebaseFirestore'
+pod 'Firebase/Storage'
 
 end

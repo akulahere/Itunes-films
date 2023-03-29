@@ -63,7 +63,7 @@ extension LoginViewController: UITextFieldDelegate {
     if textField == loginView.emailField {
       loginView.passwordField.becomeFirstResponder()
     } else if textField == loginView.passwordField {
-      registerButtonTapped()
+      loginButtonTapped()
     }
     return true
   }

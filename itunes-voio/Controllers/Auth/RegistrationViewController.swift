@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController, RegistrationViewDelegate {
+class RegistrationViewController: UIViewController, RegistrationViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   private let registrationView = RegistrationView()
   private let viewModel = RegistrationViewModel()
   
@@ -19,9 +19,12 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate {
     viewModel.delegate = self
     registrationView.emailField.delegate = self
     registrationView.passwordField.delegate = self
-    
+    registrationView.userPicView.isUserInteractionEnabled = true
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(userPicTapped))
+    registrationView.userPicView.addGestureRecognizer(tapGesture)
     registrationView.emailField.becomeFirstResponder()
   }
+  
   
   private func setUpConstraints() {
     NSLayoutConstraint.activate([
@@ -40,7 +43,9 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate {
   // TODO: Add loader
   func registerButtonTapped() {
     viewModel.email = registrationView.emailField.text ?? ""
+    viewModel.name = registrationView.nameField.text ?? ""
     viewModel.password = registrationView.passwordField.text ?? ""
+    viewModel.profileImage = registrationView.userPicView.image
     viewModel.tryToRegister { [weak self] result in
       DispatchQueue.main.async {
         switch result {
@@ -55,6 +60,36 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate {
       }
     }
   }
+  
+  @objc func userPicTapped() {
+    let imagePickerController = UIImagePickerController()
+    imagePickerController.delegate = self
+    imagePickerController.allowsEditing = true
+    
+    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    alertController.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+      imagePickerController.sourceType = .camera
+      self.present(imagePickerController, animated: true, completion: nil)
+    }))
+    alertController.addAction(UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in
+      imagePickerController.sourceType = .photoLibrary
+      self.present(imagePickerController, animated: true, completion: nil)
+    }))
+    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    
+    self.present(alertController, animated: true, completion: nil)
+  }
+  
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+      registrationView.userPicView.image = editedImage
+      viewModel.profileImage = editedImage
+    } else {
+      viewModel.profileImage = registrationView.userPicView.image
+    }
+    picker.dismiss(animated: true, completion: nil)
+  }
+  
 }
 
 extension RegistrationViewController: UITextFieldDelegate {
@@ -67,3 +102,5 @@ extension RegistrationViewController: UITextFieldDelegate {
     return true
   }
 }
+
+

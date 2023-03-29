@@ -16,7 +16,7 @@ class RegistrationView: UIView {
   weak var delegate: RegistrationViewDelegate?
 
   private let registrationLabel = IVTitleLabel(textAlignment: .center, fontSize: 36, text: "Registration")
-  let userPicView: UIView = {
+  let userPicView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = UIImage(systemName: "person.circle")
     imageView.tintColor = .gray

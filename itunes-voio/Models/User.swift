@@ -8,8 +8,9 @@
 import Foundation
 
 struct User {
+  let uid: String
   let email: String
-  let password: String
   let name: String?
   let photoUrl: String?
+  let favorites: [String]? = nil
 }

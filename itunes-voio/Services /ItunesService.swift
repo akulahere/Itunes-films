@@ -63,5 +63,46 @@ final class ItunesService {
     }
     task.resume()
   }
+  
+  func getFilmInfoBy(id: Int, completion: @escaping (Result<FilmInfo, Error>) -> Void) {
+    var urlComponents = URLComponents(string: "https://itunes.apple.com/lookup")
+    urlComponents?.queryItems = [
+      URLQueryItem(name: "id", value: "\(id)"),
+      URLQueryItem(name: "entity", value: "movie")
+    ]
+    
+    guard let url = urlComponents?.url else {
+      completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+      return
+    }
+    
+    let task = URLSession.shared.dataTask(with: url) { data, response, error in
+      if let error = error {
+        completion(.failure(error))
+        return
+      }
+      guard let data = data else {
+        completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
+        return
+      }
+      do {
+        let decoder = JSONDecoder()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        let lookupResponse = try decoder.decode(ItunesResponse.self, from: data)
+        if let filmInfo = lookupResponse.results.first {
+          completion(.success(filmInfo))
+        } else {
+          completion(.failure(NSError(domain: "Film not found", code: 0, userInfo: nil)))
+        }
+      } catch {
+        completion(.failure(error))
+      }
+    }
+    
+    task.resume()
+  }
 }
+
 
