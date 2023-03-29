@@ -5,7 +5,7 @@
 //  Created by Dmytro Akulinin on 28.03.2023.
 //
 
-import Foundation
+import UIKit
 
 final class ItunesService {
   static let shared = ItunesService()
@@ -46,6 +46,21 @@ final class ItunesService {
       }
     }
     
+    task.resume()
+  }
+  
+  func getFilmImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+    let task = URLSession.shared.dataTask(with: url) { data, response, error in
+      if error != nil {
+        completion(nil)
+        return
+      }
+      guard let data = data, let image = UIImage(data: data) else {
+        completion(nil)
+        return
+      }
+      completion(image)
+    }
     task.resume()
   }
 }

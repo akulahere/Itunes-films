@@ -93,6 +93,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		6615741329D32E480086748F /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				6639C3AF29D1A6C4007F9456 /* LoginViewController.swift */,
+				6639C3D529D1CAC0007F9456 /* RegistrationViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		6639C39F29D1A6C4007F9456 = {
 			isa = PBXGroup;
 			children = (
@@ -160,8 +169,7 @@
 		6639C3C229D1B0D5007F9456 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6639C3AF29D1A6C4007F9456 /* LoginViewController.swift */,
-				6639C3D529D1CAC0007F9456 /* RegistrationViewController.swift */,
+				6615741329D32E480086748F /* Auth */,
 				661573FF29D30FB80086748F /* FilmSearchingViewController.swift */,
 				6615740129D30FC50086748F /* FavoriteViewController.swift */,
 				6615740329D30FD10086748F /* ProfileViewController.swift */,

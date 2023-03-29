@@ -10,7 +10,15 @@ import UIKit
 class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
   private let viewModel = FilmSearchViewModel()
   private let searchBar = UISearchBar()
-  private let tableView = UITableView()
+  private let tableView: UITableView = {
+    let tableView = UITableView()
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    tableView.rowHeight = 96 // Size of the biggest element (film view + padding
+    tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "FilmCell")
+
+    
+    return tableView
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -32,8 +40,6 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   private func setupTableView() {
     tableView.dataSource = self
     tableView.delegate = self
-    tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "FilmCell")
-    tableView.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(tableView)
     
@@ -64,22 +70,22 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
     tableView.deselectRow(at: indexPath, animated: true)
     let film = viewModel.searchResults[indexPath.row]
     let detailViewController = FilmDetailViewController(film: film)
+    // TODO: Replace with pop up?
+    // TODO: Implement ViewModel for Detailed film screen, create it here and create detailedVC with this VM
     navigationController?.pushViewController(detailViewController, animated: true)
   }
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     searchBar.resignFirstResponder()
     guard let searchTerm = searchBar.text, !searchTerm.isEmpty else { return }
-    print("Search exexuted")
     viewModel.searchFilms(searchTerm: searchTerm) { [weak self] error in
       DispatchQueue.main.async {
         if let error = error {
           self?.showErrorAlert(message: error.localizedDescription)
         } else {
-          print(self?.viewModel.searchResults.count)
+          self?.tableView.reloadData()
         }
       }
     }
-    print("AFTER SEARCH: \(self.viewModel.searchResults.count)")
   }
 }
