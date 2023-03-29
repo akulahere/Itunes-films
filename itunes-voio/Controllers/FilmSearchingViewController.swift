@@ -54,13 +54,13 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   // UITableViewDataSource methods
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.searchResults.count
+    return viewModel.getResultsCount()
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "FilmCell", for: indexPath) as! FilmTableViewCell
-    let film = viewModel.searchResults[indexPath.row]
-    cell.configure(with: film)
+    let vm = FilmDetailViewModel(film: viewModel.getFilmInfo(index: indexPath.row))
+    cell.configure(with: vm)
     return cell
   }
   
@@ -68,10 +68,10 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    let film = viewModel.searchResults[indexPath.row]
-    let detailViewController = FilmDetailViewController(film: film)
+    let film = viewModel.getFilmInfo(index: indexPath.row)
+    let detailViewModel = FilmDetailViewModel(film: film)
+    let detailViewController = FilmDetailViewController(viewModel: detailViewModel)
     // TODO: Replace with pop up?
-    // TODO: Implement ViewModel for Detailed film screen, create it here and create detailedVC with this VM
     navigationController?.pushViewController(detailViewController, animated: true)
   }
   

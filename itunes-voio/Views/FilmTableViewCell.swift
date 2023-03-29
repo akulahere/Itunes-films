@@ -41,7 +41,7 @@ class FilmTableViewCell: UITableViewCell {
     genreLabel.lineBreakMode = .byTruncatingTail
     return genreLabel
   }()
-
+  
   private let yearLabel: UILabel = {
     let yearLabel = UILabel()
     yearLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -70,12 +70,12 @@ class FilmTableViewCell: UITableViewCell {
   }
   
   private func setupSubviews() {
-//    filmImageView.translatesAutoresizingMaskIntoConstraints = false
-//    genreLabel.translatesAutoresizingMaskIntoConstraints = false
-//    yearLabel.translatesAutoresizingMaskIntoConstraints = false
-//    addToFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
-//    addToFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-
+    //    filmImageView.translatesAutoresizingMaskIntoConstraints = false
+    //    genreLabel.translatesAutoresizingMaskIntoConstraints = false
+    //    yearLabel.translatesAutoresizingMaskIntoConstraints = false
+    //    addToFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
+    //    addToFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+    
     //     addToFavoriteButton.addTarget(self, action: #selector(addToFavoriteTapped), for: .touchUpInside)
     
     contentView.addSubview(filmImageView)
@@ -95,7 +95,7 @@ class FilmTableViewCell: UITableViewCell {
       filmImageView.heightAnchor.constraint(equalToConstant: 80),
       
       titleLabel.leadingAnchor.constraint(equalTo: filmImageView.trailingAnchor, constant: 8),
-//      titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -38-80-16),
+      //      titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -38-80-16),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -38),
       titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
       
@@ -110,28 +110,23 @@ class FilmTableViewCell: UITableViewCell {
       addToFavoriteButton.centerYAnchor.constraint(equalTo: centerYAnchor),
       addToFavoriteButton.heightAnchor.constraint(equalToConstant: 30),
       addToFavoriteButton.widthAnchor.constraint(equalToConstant: 30),
-
+      
     ])
   }
   
-  func configure(with film: FilmInfo) {
-
+  // TODO: Refactor to make view know nothing about model
+  func configure(with film: FilmDetailViewModel) {
+    
     print("Configure cell")
-    ItunesService.shared.getFilmImage(url: film.artworkUrl100) { [weak self] image in
+    film.getFilmImage { [weak self] image in
       DispatchQueue.main.async {
-        if let image = image {
-          self?.filmImageView.image = image
-        } else {
-          self?.filmImageView.image = UIImage(systemName: "film")
-        }
+        self?.filmImageView.image = image ?? UIImage(systemName: "film")
       }
     }
-      
-    titleLabel.text = film.trackName
-    genreLabel.text = film.primaryGenreName
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy"
-    yearLabel.text = dateFormatter.string(from: film.releaseDate)
+    
+    titleLabel.text = film.getFilmTitle()
+    genreLabel.text = film.getFilmGenre()
+    yearLabel.text = film.getFilmReleaseDate()
   }
 }
 

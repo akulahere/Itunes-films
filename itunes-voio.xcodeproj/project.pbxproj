@@ -17,6 +17,7 @@
 		6615740E29D31A360086748F /* FilmInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740D29D31A360086748F /* FilmInfo.swift */; };
 		6615741029D31A810086748F /* ItunesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615740F29D31A810086748F /* ItunesResponse.swift */; };
 		6615741229D322CC0086748F /* ItunesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615741129D322CC0086748F /* ItunesService.swift */; };
+		6615741729D44F920086748F /* FilmDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6615741629D44F920086748F /* FilmDetailViewModel.swift */; };
 		6639C3AC29D1A6C4007F9456 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3AB29D1A6C4007F9456 /* AppDelegate.swift */; };
 		6639C3AE29D1A6C4007F9456 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3AD29D1A6C4007F9456 /* SceneDelegate.swift */; };
 		6639C3B029D1A6C4007F9456 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639C3AF29D1A6C4007F9456 /* LoginViewController.swift */; };
@@ -50,6 +51,7 @@
 		6615740D29D31A360086748F /* FilmInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmInfo.swift; sourceTree = "<group>"; };
 		6615740F29D31A810086748F /* ItunesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesResponse.swift; sourceTree = "<group>"; };
 		6615741129D322CC0086748F /* ItunesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesService.swift; sourceTree = "<group>"; };
+		6615741629D44F920086748F /* FilmDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmDetailViewModel.swift; sourceTree = "<group>"; };
 		6639C3A829D1A6C4007F9456 /* itunes-voio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "itunes-voio.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6639C3AB29D1A6C4007F9456 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6639C3AD29D1A6C4007F9456 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				6639C3D129D1BE27007F9456 /* LoginViewModel.swift */,
 				6639C3D729D1CAD4007F9456 /* RegistrationViewModel.swift */,
 				6615740729D318D10086748F /* FilmSearchViewModel.swift */,
+				6615741629D44F920086748F /* FilmDetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				6639C3C929D1B87F007F9456 /* IVTextField.swift in Sources */,
 				6639C3D629D1CAC0007F9456 /* RegistrationViewController.swift in Sources */,
 				6615740C29D319B30086748F /* FilmDetailViewController.swift in Sources */,
+				6615741729D44F920086748F /* FilmDetailViewModel.swift in Sources */,
 				6639C3D029D1BD58007F9456 /* Extensions.swift in Sources */,
 				6615740229D30FC50086748F /* FavoriteViewController.swift in Sources */,
 				6615740429D30FD10086748F /* ProfileViewController.swift in Sources */,

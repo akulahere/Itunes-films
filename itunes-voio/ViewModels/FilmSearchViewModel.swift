@@ -8,7 +8,7 @@
 import Foundation
 
 class FilmSearchViewModel {
-  var searchResults: [FilmInfo] = []
+  private var searchResults: [FilmInfo] = []
   /// Fetch film info using the iTunes API
   func searchFilms(searchTerm: String, completion: @escaping (Error?) -> Void) {
     ItunesService.shared.getFilms(request: searchTerm) { [weak self] result in
@@ -20,5 +20,13 @@ class FilmSearchViewModel {
         completion(error)
       }
     }
+  }
+  
+  public func getFilmInfo(index: Int) -> FilmInfo {
+    return searchResults[index]
+  }
+  
+  public func getResultsCount() -> Int {
+    return searchResults.count
   }
 }
