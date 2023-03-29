@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(profileView)
+    setUpConstraints()
     profileView.logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
     
     viewModel.fetchUserData { [weak self] result in
@@ -53,6 +54,9 @@ class ProfileViewController: UIViewController {
         }
       }
     }
+  }
+  
+  private func setUpConstraints() {
     NSLayoutConstraint.activate([
       profileView.topAnchor.constraint(equalTo: view.topAnchor),
       profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

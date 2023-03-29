@@ -17,9 +17,9 @@ class FilmDetailViewController: UIViewController {
   }()
   
   private let scrollView: UIScrollView = {
-      let scrollView = UIScrollView()
-      scrollView.translatesAutoresizingMaskIntoConstraints = false
-      return scrollView
+    let scrollView = UIScrollView()
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
+    return scrollView
   }()
   
   private let titleLabel: UILabel = {
@@ -50,6 +50,13 @@ class FilmDetailViewController: UIViewController {
     return descriptionLabel
   }()
   
+  lazy var shareButton: UIBarButtonItem = {
+      let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonTapped))
+      return button
+  }()
+  
+  
+  
   init(viewModel: FilmDetailViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -62,6 +69,7 @@ class FilmDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBackground
+    navigationItem.rightBarButtonItem = shareButton
     setupSubviews()
     setUpConstraints()
   }
@@ -73,17 +81,19 @@ class FilmDetailViewController: UIViewController {
     view.addSubview(releaseDateLabel)
     view.addSubview(scrollView)
     scrollView.addSubview(descriptionLabel)
-    
+  
     titleLabel.text = viewModel.getFilmTitle()
     genreLabel.text = viewModel.getFilmGenre()
     releaseDateLabel.text = viewModel.getFilmReleaseDate()
     descriptionLabel.text = viewModel.getFilmDescription()
-
+    
     viewModel.getFilmImage { [weak self] image in
       DispatchQueue.main.async {
         self?.filmImageView.image = image ?? UIImage(systemName: "film")
       }
     }
+    
+    navigationItem.rightBarButtonItem = shareButton
   }
   
   private func setUpConstraints() {
@@ -115,4 +125,18 @@ class FilmDetailViewController: UIViewController {
       descriptionLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -16),
     ])
   }
+  
+  @objc func shareButtonTapped() {
+    guard let title = titleLabel.text,
+          let releaseDate = releaseDateLabel.text,
+          let filmImage = filmImageView.image else { return }
+    
+    let shareText = "Let's watch together this movie: \(title) (\(releaseDate))!"
+    let shareItems: [Any] = [shareText, filmImage]
+    
+    let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+    activityViewController.excludedActivityTypes = [.addToReadingList, .assignToContact, .markupAsPDF, .openInIBooks, .saveToCameraRoll, .print]
+    present(activityViewController, animated: true, completion: nil)
+  }
+  
 }

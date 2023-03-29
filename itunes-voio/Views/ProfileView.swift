@@ -62,18 +62,18 @@ class ProfileView: UIView {
   private func setupConstraints() {
     NSLayoutConstraint.activate([
       profileImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-      profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 50),
+      profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 50),
       profileImageView.widthAnchor.constraint(equalToConstant: 100),
       profileImageView.heightAnchor.constraint(equalToConstant: 100),
       
       nameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-      nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
+      nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 200),
       
       emailLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-      emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+      emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 50),
       
       logoutButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-      logoutButton.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 20),
+      logoutButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -160),
       logoutButton.widthAnchor.constraint(equalToConstant: 100),
       logoutButton.heightAnchor.constraint(equalToConstant: 40),
     ])
