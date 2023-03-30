@@ -30,7 +30,6 @@ final class AuthService {
         self.uploadUserPhoto(UIImage(data: profileImageData)!, userId: userId) { imageUrlResult in
           switch imageUrlResult {
           case .success(let imageUrl):
-//            let userData: [String: Any] = ["email": email, "name": name, "photoUrl": imageUrl]
             // Save the user data
             let newUser = User(uid: userId, email: email, name: name, photoUrl: imageUrl)
             self.saveUserData(user: newUser) { error in
@@ -116,6 +115,11 @@ final class AuthService {
       }
     }
   }
+  
+
+  
+
+
 }
 
 

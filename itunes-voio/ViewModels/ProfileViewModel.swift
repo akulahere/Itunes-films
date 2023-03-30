@@ -7,21 +7,46 @@
 
 import Foundation
 import FirebaseAuth
+import UIKit
 
 final class ProfileViewModel {
-  private var user: User?
+  private var user: User
   
+  static func create(completion: @escaping (Result<ProfileViewModel, Error>) -> Void) {
+    guard let uid = Auth.auth().currentUser?.uid else {
+      completion(.failure(NSError(domain: "ProfileViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "User not found"])))
+      return
+    }
+    
+    AuthService.shared.getUserData(uid: uid) { result in
+      switch result {
+      case .success(let user):
+        let viewModel = ProfileViewModel(user: user)
+        completion(.success(viewModel))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
+  }
+  
+  init(user: User) {
+    self.user = user
+  }
   
   func getUserName() -> String? {
-    return user?.name
+    return user.name
   }
   
   func getEmail() -> String? {
-    return user?.email
+    return user.email
   }
   
   func getPhotoUrl() -> String? {
-    return user?.photoUrl
+    return user.photoUrl
+  }
+  
+  func getFavorites() -> [String]? {
+    return user.favorites
   }
   
   func downloadProfileImage(completion: @escaping (Result<UIImage, Error>) -> Void) {

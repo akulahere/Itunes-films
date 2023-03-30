@@ -15,7 +15,6 @@ final class RegistrationViewModel {
   var profileImage: UIImage?
   
   func tryToRegister(completion: @escaping (Result<String, Error>) -> Void) {
-    print(profileImage)
     guard let profileImageData = profileImage?.jpegData(compressionQuality: 0.5) else {
       completion(.failure(NSError(domain: "Profile image is missing", code: -1, userInfo: nil)))
       return
@@ -29,7 +28,6 @@ final class RegistrationViewModel {
       }
     }
   }
-  
   
   // TODO: Add base field vaildation in VM
   func validateRegistrationForm() {

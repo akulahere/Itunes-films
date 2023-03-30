@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       let navigationController = UINavigationController()
       
       if Auth.auth().currentUser != nil {
+        print(Auth.auth().currentUser)
           // User is already logged in, show the main screen
           let baseTabBarController = BaseTabBarController()
           navigationController.viewControllers = [baseTabBarController]

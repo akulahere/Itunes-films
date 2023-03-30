@@ -51,8 +51,8 @@ class FilmDetailViewController: UIViewController {
   }()
   
   lazy var shareButton: UIBarButtonItem = {
-      let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonTapped))
-      return button
+    let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonTapped))
+    return button
   }()
   
   
@@ -81,7 +81,6 @@ class FilmDetailViewController: UIViewController {
     view.addSubview(releaseDateLabel)
     view.addSubview(scrollView)
     scrollView.addSubview(descriptionLabel)
-  
     titleLabel.text = viewModel.getFilmTitle()
     genreLabel.text = viewModel.getFilmGenre()
     releaseDateLabel.text = viewModel.getFilmReleaseDate()

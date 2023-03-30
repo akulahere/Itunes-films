@@ -10,7 +10,7 @@ import UIKit
 import UIKit
 
 class ProfileViewController: UIViewController {
-  private let viewModel = ProfileViewModel()
+  private var viewModel: ProfileViewModel?
   private let profileView = ProfileView()
   
   init() {
@@ -27,23 +27,33 @@ class ProfileViewController: UIViewController {
     view.addSubview(profileView)
     setUpConstraints()
     profileView.logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-    
-    viewModel.fetchUserData { [weak self] result in
-      DispatchQueue.main.async {
-        switch result {
-        case .success:
-          self?.updateUI()
-        case .failure(let error):
-          self?.showErrorAlert(message: error.localizedDescription)
+    ProfileViewModel.create { [weak self] result in
+      switch result {
+      case .success(let viewModel):
+        self?.viewModel = viewModel
+        self?.viewModel?.fetchUserData { [weak self] result in
+          DispatchQueue.main.async {
+            switch result {
+            case .success:
+              self?.updateUI()
+            case .failure(let error):
+              self?.showErrorAlert(message: error.localizedDescription)
+            }
+          }
         }
+      case .failure(let error):
+        print("Error fetching user data: \(error.localizedDescription)")
       }
     }
+    
+    
+    
   }
   
   private func updateUI() {
-    profileView.nameLabel.text = viewModel.getUserName()
-    profileView.emailLabel.text = viewModel.getEmail()
-    viewModel.downloadProfileImage { [weak self] result in
+    profileView.nameLabel.text = viewModel?.getUserName()
+    profileView.emailLabel.text = viewModel?.getEmail()
+    viewModel?.downloadProfileImage { [weak self] result in
       DispatchQueue.main.async {
         switch result {
         case .success(let image):
@@ -66,7 +76,7 @@ class ProfileViewController: UIViewController {
   }
   
   @objc func logoutButtonTapped() {
-    viewModel.logout { [weak self] error in
+    viewModel?.logout { [weak self] error in
       if let error = error {
         self?.showErrorAlert(message: error.localizedDescription)
       } else {
