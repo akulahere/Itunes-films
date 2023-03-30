@@ -32,7 +32,7 @@ class FavoriteViewController: UIViewController, UITableViewDataSource, UITableVi
     super.viewDidLoad()
     title = "Favorite Films"
     view.backgroundColor = .systemBackground
-    setupTableView()
+    setupViews()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +40,7 @@ class FavoriteViewController: UIViewController, UITableViewDataSource, UITableVi
     tableView.reloadData()
   }
   
-  private func setupTableView() {
+  private func setupViews() {
     tableView.dataSource = self
     tableView.delegate = self
     
@@ -58,14 +58,12 @@ class FavoriteViewController: UIViewController, UITableViewDataSource, UITableVi
       switch result {
       case .success:
         self?.loadFavoriteFilmDetails()
-      case .failure(let error):
-        DispatchQueue.main.async {
-          self?.showErrorAlert(message: error.localizedDescription)
-        }
+      case .failure(_):
+        print("No favorites")
       }
     }
   }
-  
+    
   private func loadFavoriteFilmDetails() {
     let group = DispatchGroup()
     self.filmDetailsViewModels = []
@@ -114,13 +112,14 @@ class FavoriteViewController: UIViewController, UITableViewDataSource, UITableVi
 
 extension FavoriteViewController: FilmTableViewCellDelegate {
   func addToFavoriteButtonTapped(cell: FilmTableViewCell) {
-    print("cell taped")
     guard let indexPath = tableView.indexPath(for: cell) else { return }
     let viewModel = filmDetailsViewModels[indexPath.row]
     
     favoriteViewModel.removeFavoriteFilm(filmId: viewModel.getFilmID()) { [weak self] error in
       if let error = error {
-        print("Failed to remove film with ID \(viewModel.getFilmID()): \(error.localizedDescription)")
+        DispatchQueue.main.async {
+          self?.showErrorAlert(message: "Failed to remove film with ID \(viewModel.getFilmID()): \(error.localizedDescription)")
+        }
       } else {
         DispatchQueue.main.async {
           self?.filmDetailsViewModels.remove(at: indexPath.row)

@@ -40,21 +40,22 @@ class RegistrationViewController: UIViewController, RegistrationViewDelegate, UI
     navigationController?.popViewController(animated: true)
   }
   
-  // TODO: Add loader
   func registerButtonTapped() {
     viewModel.email = registrationView.emailField.text ?? ""
     viewModel.name = registrationView.nameField.text ?? ""
     viewModel.password = registrationView.passwordField.text ?? ""
     viewModel.profileImage = registrationView.userPicView.image
+    LoadingSpinner.shared.show()
     viewModel.tryToRegister { [weak self] result in
       DispatchQueue.main.async {
         switch result {
+
         case .success(let message):
-          print(message)
+          LoadingSpinner.shared.hide()
           let tabBar = BaseTabBarController()
           self?.navigationController?.setViewControllers([tabBar], animated: true)
-          // TODO: Proceed to the next view
         case .failure(let error):
+          LoadingSpinner.shared.hide()
           self?.showErrorAlert(message: error.localizedDescription)
         }
       }

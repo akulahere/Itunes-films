@@ -39,13 +39,16 @@ class LoginViewController: UIViewController, LoginViewDelegate {
     viewModel.email = loginView.emailField.text ?? ""
     viewModel.password = loginView.passwordField.text ?? ""
     viewModel.tryToLogin { [weak self] result in
+      LoadingSpinner.shared.show()
       DispatchQueue.main.async {
         switch result {
         case .success(let message):
-          print(message)
+          LoadingSpinner.shared.hide()
           let tabBar = BaseTabBarController()
           self?.navigationController?.setViewControllers([tabBar], animated: true)
         case .failure(let error):
+          LoadingSpinner.shared.hide()
+
           self?.showErrorAlert(message: error.localizedDescription)
         }
       }
