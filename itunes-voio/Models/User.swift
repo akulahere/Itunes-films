@@ -12,5 +12,5 @@ struct User {
   let email: String
   let name: String?
   let photoUrl: String?
-  let favorites: [String]? = nil
+  let favorites: [Int]?
 }

@@ -8,11 +8,15 @@
 import UIKit
 
 
-// TODO: - Fix cells layout
 // TODO: - Place image loader in controller
-// TODO: - Make name label it two lines
-// TODO: - Make smaller font for Genre and year
+
+protocol FilmTableViewCellDelegate: AnyObject {
+    func addToFavoriteButtonTapped(cell: FilmTableViewCell)
+}
+
 class FilmTableViewCell: UITableViewCell {
+  weak var delegate: FilmTableViewCellDelegate?
+
   private let filmImageView: UIImageView = {
     let filmImageView = UIImageView()
     filmImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,11 +61,13 @@ class FilmTableViewCell: UITableViewCell {
     let addToFavoriteButton = UIButton()
     addToFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
     addToFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+
     return addToFavoriteButton
   }()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    addToFavoriteButton.addTarget(self, action: #selector(addToFavoriteButtonTapped), for: .touchUpInside)
     setupSubviews()
   }
   
@@ -69,15 +75,7 @@ class FilmTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func setupSubviews() {
-    //    filmImageView.translatesAutoresizingMaskIntoConstraints = false
-    //    genreLabel.translatesAutoresizingMaskIntoConstraints = false
-    //    yearLabel.translatesAutoresizingMaskIntoConstraints = false
-    //    addToFavoriteButton.translatesAutoresizingMaskIntoConstraints = false
-    //    addToFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-    
-    //     addToFavoriteButton.addTarget(self, action: #selector(addToFavoriteTapped), for: .touchUpInside)
-    
+  private func setupSubviews() {    
     contentView.addSubview(filmImageView)
     contentView.addSubview(titleLabel)
     contentView.addSubview(genreLabel)
@@ -115,7 +113,7 @@ class FilmTableViewCell: UITableViewCell {
   }
   
   // TODO: Refactor to make view know nothing about model
-  func configure(with film: FilmDetailViewModel) {
+  func configure(with film: FilmDetailViewModel, isFavorite: Bool) {
     
     print("Configure cell")
     film.getFilmImage { [weak self] image in
@@ -127,6 +125,18 @@ class FilmTableViewCell: UITableViewCell {
     titleLabel.text = film.getFilmTitle()
     genreLabel.text = film.getFilmGenre()
     yearLabel.text = film.getFilmReleaseDate()
+    
+    addToFavoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill" : "star"), for: .normal)
+  }
+  
+  @objc private func addToFavoriteButtonTapped() {
+    print("button tapped")
+    print(delegate)
+      delegate?.addToFavoriteButtonTapped(cell: self)
+  }
+
+  func updateFavoriteButtonImage(isFavorite: Bool) {
+      addToFavoriteButton.setImage(UIImage(systemName: isFavorite ? "star.fill" : "star"), for: .normal)
   }
 }
 

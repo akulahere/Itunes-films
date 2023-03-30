@@ -45,7 +45,7 @@ final class ProfileViewModel {
     return user.photoUrl
   }
   
-  func getFavorites() -> [String]? {
+  func getFavorites() -> [Int]? {
     return user.favorites
   }
   

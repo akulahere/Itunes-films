@@ -43,4 +43,9 @@ class FilmDetailViewModel {
   func getFilmTrailer() -> URL {
     return film.previewURL
   }
+  
+  func getFilmID() -> Int {
+    return film.trackID
+  }
+  
 }

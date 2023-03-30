@@ -9,13 +9,14 @@ import UIKit
 
 class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
   private let viewModel = FilmSearchViewModel()
+  private let favoriteViewModel = FavoriteViewModel()
   private let searchBar = UISearchBar()
   private let tableView: UITableView = {
     let tableView = UITableView()
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.rowHeight = 96 // Size of the biggest element (film view + padding
     tableView.register(FilmTableViewCell.self, forCellReuseIdentifier: "FilmCell")
-
+    
     
     return tableView
   }()
@@ -28,6 +29,19 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
     
     setupSearchBar()
     setupTableView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    favoriteViewModel.fetchFavoriteFilmIds(completion: { result in
+      switch result {
+      case .success(let success):
+        DispatchQueue.main.async { [weak self] in
+          self?.tableView.reloadData()
+        }
+      case .failure(let failure):
+        print("Error with updating")
+      }
+    })
   }
   
   private func setupSearchBar() {
@@ -51,6 +65,7 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
     ])
   }
   
+  
   // UITableViewDataSource methods
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,10 +74,16 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "FilmCell", for: indexPath) as! FilmTableViewCell
-    let vm = FilmDetailViewModel(film: viewModel.getFilmInfo(index: indexPath.row))
-    cell.configure(with: vm)
+    
+    let detailViewModel = FilmDetailViewModel(film: viewModel.getFilmInfo(index: indexPath.row))
+
+    let isFavorite = favoriteViewModel.isFavorite(filmId: detailViewModel.getFilmID())
+    cell.configure(with: detailViewModel, isFavorite: isFavorite)
+    cell.delegate = self
+    cell.configure(with: detailViewModel, isFavorite: isFavorite)
     return cell
   }
+  
   
   // UITableViewDelegate methods
   
@@ -84,6 +105,33 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
           self?.showErrorAlert(message: error.localizedDescription)
         } else {
           self?.tableView.reloadData()
+        }
+      }
+    }
+  }
+}
+
+extension FilmSearchingViewController: FilmTableViewCellDelegate {
+  func addToFavoriteButtonTapped(cell: FilmTableViewCell) {
+    print("cell taped")
+    guard let indexPath = tableView.indexPath(for: cell) else { return }
+    let filmID = viewModel.getFilmId(index: indexPath.row)
+    let isFavorite = favoriteViewModel.isFavorite(filmId: filmID)
+    
+    if isFavorite {
+      favoriteViewModel.removeFavoriteFilm(filmId: filmID) { [weak self] error in
+        if let error = error {
+          print("Error removing film from favorites: \(error.localizedDescription)")
+        } else {
+          cell.updateFavoriteButtonImage(isFavorite: false)
+        }
+      }
+    } else {
+      favoriteViewModel.saveFavoriteFilm(filmId: filmID) { [weak self] error in
+        if let error = error {
+          print("Error adding film to favorites: \(error.localizedDescription)")
+        } else {
+          cell.updateFavoriteButtonImage(isFavorite: true)
         }
       }
     }

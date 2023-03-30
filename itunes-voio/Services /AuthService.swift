@@ -15,6 +15,7 @@ import FirebaseStorage
 
 final class AuthService {
   static let shared = AuthService()
+  private let db = Firestore.firestore()
   
   init() {}
   
@@ -31,7 +32,7 @@ final class AuthService {
           switch imageUrlResult {
           case .success(let imageUrl):
             // Save the user data
-            let newUser = User(uid: userId, email: email, name: name, photoUrl: imageUrl)
+            let newUser = User(uid: userId, email: email, name: name, photoUrl: imageUrl, favorites: [])
             self.saveUserData(user: newUser) { error in
               if let error = error {
                 completion(.failure(error))
@@ -58,7 +59,6 @@ final class AuthService {
   }
   
   func saveUserData(user: User, completion: @escaping (Error?) -> Void) {
-    let db = Firestore.firestore()
     let userData: [String: Any] = [
       "uid": user.uid,
       "email": user.email,
@@ -72,7 +72,6 @@ final class AuthService {
   }
   
   func getUserData(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
-    let db = Firestore.firestore()
     db.collection("users").document(uid).getDocument { (document, error) in
       if let error = error {
         completion(.failure(error))
@@ -86,7 +85,8 @@ final class AuthService {
         
         let name = data["name"] as? String
         let photoUrl = data["photoUrl"] as? String
-        let appUser = User(uid: uid, email: email, name: name, photoUrl: photoUrl)
+        let favorites = data["favorites"] as? [Int] ?? []
+        let appUser = User(uid: uid, email: email, name: name, photoUrl: photoUrl, favorites: favorites)
         completion(.success(appUser))
       }
     }
@@ -116,10 +116,63 @@ final class AuthService {
     }
   }
   
-
+  func saveFavoriteFilm(uid: String, filmId: Int, completion: @escaping (Error?) -> Void) {
+    let docRef = db.collection("favorites").document(uid)
+    
+    docRef.getDocument { (document, error) in
+      if let error = error {
+        completion(error)
+      } else if let document = document, document.exists {
+        docRef.updateData([
+          "films": FieldValue.arrayUnion([filmId])
+        ]) { error in
+          completion(error)
+        }
+      } else {
+        docRef.setData([
+          "films": [filmId]
+        ]) { error in
+          completion(error)
+        }
+      }
+    }
+  }
   
-
-
+  func removeFavoriteFilm(uid: String, filmId: Int, completion: @escaping (Error?) -> Void) {
+    let docRef = db.collection("favorites").document(uid)
+    
+    docRef.getDocument { (document, error) in
+      if let error = error {
+        completion(error)
+      } else if let document = document, document.exists {
+        docRef.updateData([
+          "films": FieldValue.arrayRemove([filmId])
+        ]) { error in
+          completion(error)
+        }
+      } else {
+        completion(NSError(domain: "AuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document not found"]))
+      }
+    }
+  }
+  
+  func fetchFavoriteFilmIds(uid: String, completion: @escaping (Result<[Int], Error>) -> Void) {
+    let docRef = db.collection("favorites").document(uid)
+    docRef.getDocument { (document, error) in
+      if let error = error {
+        completion(.failure(error))
+      } else if let document = document, document.exists {
+        let filmIds = document.data()?["films"] as? [Int] ?? []
+        completion(.success(filmIds))
+      } else {
+        completion(.failure(NSError(domain: "AuthService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document not found"])))
+      }
+    }
+  }
+  
+  func getUserId() -> String {
+    return Auth.auth().currentUser?.uid ?? ""
+  }
 }
 
 
