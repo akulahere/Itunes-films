@@ -14,24 +14,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-      guard let windowScene = (scene as? UIWindowScene) else { return }
-      window = UIWindow(windowScene: windowScene)
-      let navigationController = UINavigationController()
-      
-      if Auth.auth().currentUser != nil {
-        print(Auth.auth().currentUser)
-          // User is already logged in, show the main screen
-          let baseTabBarController = BaseTabBarController()
-          navigationController.viewControllers = [baseTabBarController]
-      } else {
-          // Show the login or registration screen
-          let loginVC = LoginViewController()
-          navigationController.viewControllers = [loginVC]
-      }
-      
-      navigationController.modalPresentationStyle = .fullScreen
-      window?.rootViewController = navigationController
-      window?.makeKeyAndVisible()
+    guard let windowScene = (scene as? UIWindowScene) else { return }
+    window = UIWindow(windowScene: windowScene)
+    let navigationController = UINavigationController()
+    
+    if Auth.auth().currentUser != nil {
+      // User is already logged in, show the main screen
+      let baseTabBarController = BaseTabBarController()
+      navigationController.viewControllers = [baseTabBarController]
+    } else {
+      // Show the login or registration screen
+      let loginVC = LoginViewController()
+      navigationController.viewControllers = [loginVC]
+    }
+    
+    navigationController.modalPresentationStyle = .fullScreen
+    window?.rootViewController = navigationController
+    window?.makeKeyAndVisible()
   }
   
   func sceneDidDisconnect(_ scene: UIScene) {

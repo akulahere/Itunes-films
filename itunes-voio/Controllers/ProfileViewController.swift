@@ -27,7 +27,9 @@ class ProfileViewController: UIViewController {
     view.addSubview(profileView)
     setUpConstraints()
     profileView.logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+    LoadingSpinner.shared.show()
     ProfileViewModel.create { [weak self] result in
+      LoadingSpinner.shared.hide()
       switch result {
       case .success(let viewModel):
         self?.viewModel = viewModel
@@ -45,9 +47,6 @@ class ProfileViewController: UIViewController {
         print("Error fetching user data: \(error.localizedDescription)")
       }
     }
-    
-    
-    
   }
   
   private func updateUI() {

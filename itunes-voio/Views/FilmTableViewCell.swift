@@ -112,7 +112,6 @@ class FilmTableViewCell: UITableViewCell {
     ])
   }
   
-  // TODO: Refactor to make view know nothing about model
   func configure(with film: FilmDetailViewModel, isFavorite: Bool) {
     
     print("Configure cell")
@@ -130,8 +129,6 @@ class FilmTableViewCell: UITableViewCell {
   }
   
   @objc private func addToFavoriteButtonTapped() {
-    print("button tapped")
-    print(delegate)
       delegate?.addToFavoriteButtonTapped(cell: self)
   }
 

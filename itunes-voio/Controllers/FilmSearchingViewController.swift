@@ -33,13 +33,13 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   
   override func viewWillAppear(_ animated: Bool) {
     favoriteViewModel.fetchFavoriteFilmIds(completion: { result in
+      DispatchQueue.main.async { [weak self] in
       switch result {
-      case .success(let success):
-        DispatchQueue.main.async { [weak self] in
+        case .success(_):
           self?.tableView.reloadData()
+        case .failure(_):
+          self?.showErrorAlert(message: "Error with updating)")
         }
-      case .failure(let failure):
-        print("Error with updating")
       }
     })
   }
@@ -76,7 +76,7 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
     let cell = tableView.dequeueReusableCell(withIdentifier: "FilmCell", for: indexPath) as! FilmTableViewCell
     
     let detailViewModel = FilmDetailViewModel(film: viewModel.getFilmInfo(index: indexPath.row))
-
+    
     let isFavorite = favoriteViewModel.isFavorite(filmId: detailViewModel.getFilmID())
     cell.configure(with: detailViewModel, isFavorite: isFavorite)
     cell.delegate = self
@@ -99,7 +99,9 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     searchBar.resignFirstResponder()
     guard let searchTerm = searchBar.text, !searchTerm.isEmpty else { return }
+    LoadingSpinner.shared.show()
     viewModel.searchFilms(searchTerm: searchTerm) { [weak self] error in
+      LoadingSpinner.shared.hide()
       DispatchQueue.main.async {
         if let error = error {
           self?.showErrorAlert(message: error.localizedDescription)
@@ -113,26 +115,31 @@ class FilmSearchingViewController: UIViewController, UITableViewDataSource, UITa
 
 extension FilmSearchingViewController: FilmTableViewCellDelegate {
   func addToFavoriteButtonTapped(cell: FilmTableViewCell) {
-    print("cell taped")
     guard let indexPath = tableView.indexPath(for: cell) else { return }
     let filmID = viewModel.getFilmId(index: indexPath.row)
     let isFavorite = favoriteViewModel.isFavorite(filmId: filmID)
     
     if isFavorite {
       favoriteViewModel.removeFavoriteFilm(filmId: filmID) { [weak self] error in
-        if let error = error {
-          print("Error removing film from favorites: \(error.localizedDescription)")
-        } else {
-          cell.updateFavoriteButtonImage(isFavorite: false)
+        DispatchQueue.main.async {
+          if let error = error {
+            self?.showErrorAlert(message: "Error removing film from favorites: \(error.localizedDescription)")
+          } else {
+            cell.updateFavoriteButtonImage(isFavorite: false)
+          }
         }
+
       }
     } else {
       favoriteViewModel.saveFavoriteFilm(filmId: filmID) { [weak self] error in
-        if let error = error {
-          print("Error adding film to favorites: \(error.localizedDescription)")
-        } else {
-          cell.updateFavoriteButtonImage(isFavorite: true)
+        DispatchQueue.main.async {
+          if let error = error {
+            self?.showErrorAlert(message: "Error adding film to favorites: \(error.localizedDescription)")
+          } else {
+            cell.updateFavoriteButtonImage(isFavorite: true)
+          }
         }
+
       }
     }
   }
